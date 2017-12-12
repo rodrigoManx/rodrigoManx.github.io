@@ -1,4 +1,4 @@
-var json_file = "teamfights_200.json";
+var json_file = "teamfights_all.json";
 var diameter_teamfights_vis = 560;
 var margin_c_teamfights_vis = 0;
 var diameter_chart2_vis = 500;
