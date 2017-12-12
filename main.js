@@ -117,8 +117,7 @@ function display_menu(){
 }
 
 function togglePressed(){
-	console.log(duration_selected);
-	console.log(intensity_selected);
+	console.log(hero_list);
 	if(duration_selected == "Short"){
 		d_min = 0;
 		d_max = 1800;
