@@ -100,9 +100,6 @@ for (var i = 1; i <= 113; i++){
     		.style("width", "7.5%")
     		.on("click", function(){
     			this.style.opacity = "1";
-    			console.log(this.src);
-    			console.log(get_number(this.src));
-    			console.log("hi");
     			hero_list.push(Number(get_number(this.src)))});
 	}
 }
