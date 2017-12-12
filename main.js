@@ -102,6 +102,7 @@ for (var i = 1; i <= 113; i++){
     			this.style.opacity = "1";
     			console.log(this.src);
     			console.log(get_number(this.src));
+    			console.log("hi");
     			hero_list.push(Number(get_number(this.src)))});
 	}
 }
@@ -166,7 +167,7 @@ function togglePressed(){
 }
 
 function get_number(name){
-	var subs = name.substring(40);
+	var subs = name.substring(51);
 	var n = "";
 	for (var i = 0; i < subs.length; i++){
 		if(subs[i]=='.'){
