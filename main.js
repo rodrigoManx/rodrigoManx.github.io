@@ -101,6 +101,7 @@ for (var i = 1; i <= 113; i++){
     		.on("click", function(){
     			this.style.opacity = "1";
     			console.log(this.src);
+    			console.log(get_number(this.src));
     			hero_list.push(Number(get_number(this.src)))});
 	}
 }
