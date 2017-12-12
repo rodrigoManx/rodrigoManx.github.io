@@ -98,7 +98,10 @@ for (var i = 1; i <= 113; i++){
     		.attr("src", "dota2heroes/205x115/"+i+".png")
     		.attr("class", "button")
     		.style("width", "7.5%")
-    		.on("click", function(){this.style.opacity = "1";hero_list.push(Number(get_number(this.src)))});
+    		.on("click", function(){
+    			this.style.opacity = "1";
+    			console.log(this.src);
+    			hero_list.push(Number(get_number(this.src)))});
 	}
 }
 panel.append("center")
