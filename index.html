@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+/*.circlepack {
+  margin-left: 15%;
+  width: 85%;
+  height: 100%;
+  border: 1px solid gray;
+}
+
+.circles {
+  margin-left: 100%;
+  width: 50%;
+}*/
+/*.menu {
+  float:left;
+  width:18%;
+  text-align:center;
+}
+.menuitem {
+  background-color:#e5e5e5;
+  padding:8px;
+  margin-top:5px;
+}*/
+
+.filter_stuff {
+  font-size: 25px;
+}
+
+.pie_chart {
+  position: relative;
+  float:left;
+  width:60%;
+  padding:0 20px;
+  background: red;
+  margin-top:5px;
+  margin-left:0px;
+}
+.right {
+  background-color:#e5e5e5;
+  float:right;
+  width:36%;
+  padding:15px;
+  margin-top:5px;
+  text-align:center;
+}
+/*
+.chart {
+  margin-left: 0%;
+  width: 80%;
+}*/
+/*.pie_chart {
+  margin-left: 0%;
+  width: 100%;
+}*/
+/*.node{
+  cursor: pointer;
+  fill: red;
+}*/
+
+.node:hover {
+  stroke: white;
+  stroke-width: 4px;
+}
+
+.label {
+  font-size: 0.7em;
+  font-weight: bold;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+/*.node--root {
+  fill:red;
+}*/
+
+/*.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}*/
+
+
+/*.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}*/
+
+.w_bar {
+  fill: greenyellow;
+}
+.w_bar:hover {
+  fill: yellow;
+}
+.button {
+  opacity: 0.4;
+}
+.button:hover{
+  opacity: 1.0; 
+}
+.l_bar {
+  fill: red;
+}
+.l_bar:hover {
+  fill: yellow;
+}
+
+
+/*.x.axis path {
+  display: none;
+}*/
+
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
+}
+
+</style>
+  <head>
+  </head>
+  <body>
+    <div id="top" style="background-color:#e5e5e5;padding:10px;text-align:center;">
+      <h1>Dota2 Games Explorer</h1>
+    </div>
+    <div style="overflow:auto">
+      
+
+      <div id="pie_chart" class="pie_chart">
+      </div>
+
+      <div id="right" class="right">
+      </div>
+    </div>
+    <div style="background-color:#e5e5e5;text-align:center;padding:10px;margin-top:5px;" id="chart" class="chart"></div>
+
+    <script type="text/javascript" src="d3.js"></script>
+    <script src="d3-tip.js"></script>
+    <script type="text/javascript" src="game_filter.js"></script>
+    <script type="text/javascript" src="draw_charts.js"></script>
+    <script type="text/javascript" src="parallel_coordinates.js"></script>
+    <script type="text/javascript" src="chart.js"></script>
+    <script type="text/javascript" src="pie_chart.js"></script>
+    <script type="text/javascript" src="draw_teamfights.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+
+
+    <div id="teamfights_explorer" class="teamfights_explorer">
+    </div>
+
+
+  </body>
+</html>
