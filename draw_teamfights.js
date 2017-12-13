@@ -225,8 +225,8 @@ function draw_teamfights(side, margin_c, filtered_list, chunk_size){
 
   function c_zoom(d) {
     if (d3.event.ctrlKey){
+      console.log(d);
       selected_games.push(d.data);
-      
     }
     else{
       var focus0 = focus; 
