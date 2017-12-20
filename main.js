@@ -98,9 +98,7 @@ for (var i = 1; i <= 113; i++){
     		.attr("src", "dota2heroes/205x115/"+i+".png")
     		.attr("class", "button")
     		.style("width", "7.5%")
-    		.on("click", function(){
-    			this.style.opacity = "1";
-    			hero_list.push(Number(get_number(this.src)))});
+    		.on("click", function(){this.style.opacity = "1";hero_list.push(Number(get_number(this.src)))});
 	}
 }
 panel.append("center")
@@ -164,7 +162,7 @@ function togglePressed(){
 }
 
 function get_number(name){
-	var subs = name.substring(51);
+	var subs = name.substring(40);
 	var n = "";
 	for (var i = 0; i < subs.length; i++){
 		if(subs[i]=='.'){

@@ -1,4 +1,5 @@
 function draw_bars(data){
+  console.log(data);
   d3.select("#chart").selectAll("svg").remove();
   var width = 1900,
       height = 250;
