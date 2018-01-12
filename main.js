@@ -163,7 +163,6 @@ function togglePressed(){
 
 function get_number(name){
 	var subs = name.substring(40);
-	console.log(subs);
 	var n = "";
 	for (var i = 0; i < subs.length; i++){
 		if(subs[i]=='.'){
