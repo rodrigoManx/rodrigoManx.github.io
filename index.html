@@ -2,103 +2,95 @@
 <meta charset="utf-8">
 <style> /* set the CSS */
 
+.line {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+  transition: opacity .1s ease-out;
+}
+
+
+.tick line {
+  display: none;
+}
+
+.xTick {
+  opacity: 0;
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+  transition: opacity 1s ease-out;
+}
+
+
+.xTickLabel {
+  opacity: 0;
+  font-size: 12px;
+  transition: opacity 1s ease-out;
+}
+
+
+
+.graph2:hover .tl{
+  transform: scaleX(1);
+  transform: scaleY(1);
+} 
+
+.graph2:hover .line {
+  opacity: 0.1;
+}
+
+.path-g2 {
+  opacity: 1 !important;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: dash 5s linear infinite;
+}
+
+
 .tendencyLine {
   fill: none;
   stroke: black;
   stroke-width: 1px;
 }
 
+.tl {
+  transform: scaleX(0);
+  transform: scaleY(0);
+  transform-origin: 0 50%;
+  transition: transform .3s ease-out;
+}
+
 .tendencyCircle {
   stroke: black;
   fill: white;
 }
-@media only screen and (min-width: 700px){
-  .line {
-    fill: none;
-    stroke: black;
-    stroke-width: 2px;
-    transition: opacity .1s ease-out;
-  }
 
-  .tick line {
-    display: none;
-  }
+.graph1:hover .xTick, .graph1:hover .xTickLabel{
+  opacity: 1;
+}
 
-  .xTick {
-    opacity: 0;
-    fill: none;
-    stroke: black;
-    stroke-width: 1px;
-    transition: opacity 1s ease-out;
-  }
+.graph1:hover .tl{
+  transform: scaleX(1);
+  transform: scaleY(1);
+} 
 
+.graph1:hover .line {
+  opacity: 0.3;
+}
 
-  .xTickLabel {
-    opacity: 0;
-    font-size: 12px;
-    transition: opacity 1s ease-out;
-  }
+.micras {
+  font-size: 20px;
+}
 
-
-
-  .graph2:hover .tl{
-    transform: scaleX(1);
-    transform: scaleY(1);
-  } 
-
-  .graph2:hover .line {
-    opacity: 0.1;
-  }
-
-  .path-g2 {
-    opacity: 1 !important;
-    stroke-dasharray: 2000;
+@keyframes dash {
+  from {
     stroke-dashoffset: 2000;
-    animation: dash 5s linear infinite;
   }
-
-  .tl {
-    transform: scaleX(0);
-    transform: scaleY(0);
-    transform-origin: 0 50%;
-    transition: transform .3s ease-out;
-  }
-  .tendencyCircle {
-    stroke: black;
-    fill: white;
-  }
-
-  .graph1:hover .xTick, .graph1:hover .xTickLabel{
-    opacity: 1;
-  }
-
-  .graph1:hover .tl{
-    transform: scaleX(1);
-    transform: scaleY(1);
-  } 
-
-  .graph1:hover .line {
-    opacity: 0.3;
-  }
-
-
-  @keyframes dash {
-    from {
-      stroke-dashoffset: 2000;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }  
-}
-
-
-@media only screen and (max-width: 699px){
-  .tl{
-    fill: black !important;
+  to {
+    stroke-dashoffset: 0;
   }
 }
-
 
 </style>
 <body>
@@ -106,7 +98,7 @@
 </div>
 <div id="chart1">
 </div>
-<!-- load the d3.js library -->     
+<!-- load the d3.js library -->    	
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
@@ -255,7 +247,7 @@ d3.csv("data.csv", function(error, data) {
     console.log(data.map(function(d) { return d.date; }));
 
     x.domain(data.map(function(d) { return d.date; }));
-    y.domain([88, 104]);
+    y.domain([86, 104]);
 
 
   var valueline = d3.line()
@@ -321,8 +313,13 @@ d3.csv("data.csv", function(error, data) {
     .attr("cy", function(d){return y(d.close)})
     .attr("r", "10");
 
-
-
+  svg.select(".tl").selectAll(".micras")
+    .data(tendencyLine)
+    .enter().append("text")
+    .text(function(d){return d.micras+"µm"})
+    .attr("class", "micras")
+    .attr("x", function(d){return x(d.date)})
+    .attr("y", function(d){return y(d.close)-25});
 
   var yAxis = d3.axisRight(y)
     .tickSize(width);
