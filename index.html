@@ -92,11 +92,25 @@
   }
 }
 
+.graph3:hover .graph3Aux{
+  opacity: 1;
+}
+
+.graph3Aux {
+  opacity: 0;  
+}
+
+.vg{
+  font-size: 15px;
+}
+
 </style>
 <body>
 <div id="chart2">    
 </div>
 <div id="chart1">
+</div>
+<div id="chart3">
 </div>
 <!-- load the d3.js library -->    	
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -244,8 +258,6 @@ d3.csv("data.csv", function(error, data) {
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    console.log(data.map(function(d) { return d.date; }));
-
     x.domain(data.map(function(d) { return d.date; }));
     y.domain([86, 104]);
 
@@ -329,11 +341,106 @@ d3.csv("data.csv", function(error, data) {
       .attr("class", "yAxis")
       .call(d3.axisLeft(y));
 
-  function customYAxis(g) {
-      g.call(yAxis);
-      g.selectAll(".tick text").attr("x", 4).attr("dy", -4);
-  }
+});
+
+
+d3.csv("data3.csv", function(error, data) {
+  if (error) throw error;
+
+  var margin = {top: 20, right: 50, bottom: 30, left: 50},
+      width = ($(window).width()*0.9) - margin.left - margin.right,
+      height = (($(window).width()*0.9)/2) - margin.top - margin.bottom;
+
+  var iter = 1;
+  data.forEach(function(d) {
+    d.id = iter++;
+    d.MIC_VG = parseFloat(d.MIC_VG);
+  });
+
+  console.log(data);
+
+  var x = d3.scaleLinear().range([0, width]).domain(d3.extent(data,function(d){return d.id}));
+  var y = d3.scaleLinear().range([height, 0]).domain([-5,3]);;
+
+  var svg = d3.select("#chart3").append("svg")
+    .attr("class", "graph3")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .on("mousemove", function(){
+      var p = d3.mouse(this);
+      if(p[0]-(margin.left) < 0 || p[0]-(margin.left) > width)
+        return;
+
+      var aux = d3.select(".graph3Aux")
+                    .attr("x", p[0]-margin.left);
+      var aux = d3.select(".vg")
+                    .attr("x", p[0]-(margin.left) - 28)
+                    .text(function(){
+                      var one = x.invert(p[0]-(margin.left));
+                      var two = parseInt(one);
+                      var three = data[two];
+                      var four = three.MIC_VG;
+                      //console.log(one);
+                      //console.log(four);
+                      return "VG "+Math.round(four*100)/100;
+                    });
+    })
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("g")
+  .attr("transform", "translate(0,0)")
+  .attr("class", "yAxis")
+  .call(d3.axisLeft(y));
+
+  svg.append("g")
+    .attr("transform", "translate(0," + y(0) + ")")
+    .call(d3.axisBottom(x));
+
+  var area = d3.area()
+    .x(function(d) { return x(d.id); })
+    .y0(y(0))
+    .y1(function(d) { return y(d.MIC_VG); });
+
+  var valueline = d3.line()
+    .x(function(d) { return x(d.id); })
+    .y(function(d) { return y(d.MIC_VG); });
+
+  // add the area
+  svg.append("path")
+     .data([data])
+     .attr("class", "area")
+     .attr("d", area)
+     .attr("fill", "rgba(0,0,0,0.2)");
+
+  // add the valueline path.
+  svg.append("path")
+      .data([data])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+
+  svg.append("g")
+      .attr("class", "legend")
+      .append("rect")
+      .attr("class", "graph3Aux")
+      .attr("x", width/2)
+      .attr("y", height * 0.07)
+      .attr("width", 1)
+      .attr("height", height * 0.93);
+
+    svg.append("g")
+      .append("text")
+      .text("HELLO")
+      .attr("class", "graph3Aux vg")
+      .attr("x", width/2)
+      .attr("y", 20);
+
+  console.log(x.invert(width/2));
+
 
 });
+
 </script>
 </body>
