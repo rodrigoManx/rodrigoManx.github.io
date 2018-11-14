@@ -5,7 +5,7 @@
 .line {
   fill: none;
   stroke: black;
-  stroke-width: 2px;
+  stroke-width: 1.5px;
   transition: opacity .1s ease-out;
 }
 
@@ -25,7 +25,7 @@
 
 .xTickLabel {
   opacity: 0;
-  font-size: 12px;
+  font-size: 1.15vw;
   transition: opacity 1s ease-out;
 }
 
@@ -79,8 +79,8 @@
   opacity: 0.3;
 }
 
-.micras {
-  font-size: 20px;
+.micras, .graph2Legend text {
+  font-size: 1.5vw;
 }
 
 @keyframes dash {
@@ -93,15 +93,20 @@
 }
 
 .graph3:hover .graph3Aux{
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .graph3Aux {
   opacity: 0;  
 }
 
-.vg{
-  font-size: 15px;
+.vg, .graph3Label{
+  font-size: 1.15vw;
+  opacity: 0;
+}
+
+.tick text {
+  font-size: 1.15vw;  
 }
 
 </style>
@@ -143,7 +148,6 @@ d3.csv("data2.csv", function(error, data) {
   y.domain([83, 113]);
 
   var cat = ["FD","SD","FC","CV","PM","MFD"];
-  var catDict = {"FD": 15,"SD": 30,"FC": 45,"CV": 60,"PM": 75,"MFD": 90};
 
   var legendOffset = 370;
   var itemOffset = 0;
@@ -151,10 +155,8 @@ d3.csv("data2.csv", function(error, data) {
   var legend = d3.scaleBand().range([0, width]).padding(1);
   legend.domain(cat);
 
-  console.log(legend("FD"));
-  console.log(legend("SD"));
 
-  svg.append("g").attr("class", "legend").selectAll(".legend")
+  svg.append("g").attr("class", "graph2Legend").selectAll(".legend")
     .data(cat).enter()
     .append("text")
     .text(function(d) {itemOffset+=10; return d;})
@@ -331,7 +333,7 @@ d3.csv("data.csv", function(error, data) {
     .text(function(d){return d.micras+"µm"})
     .attr("class", "micras")
     .attr("x", function(d){return x(d.date)})
-    .attr("y", function(d){return y(d.close)-25});
+    .attr("y", function(d){return y(d.close)-height*0.06});
 
   var yAxis = d3.axisRight(y)
     .tickSize(width);
@@ -376,13 +378,17 @@ d3.csv("data3.csv", function(error, data) {
       var aux = d3.select(".vg")
                     .attr("x", p[0]-(margin.left) - 28)
                     .text(function(){
-                      var one = x.invert(p[0]-(margin.left));
-                      var two = parseInt(one);
-                      var three = data[two];
-                      var four = three.MIC_VG;
-                      //console.log(one);
-                      //console.log(four);
-                      return "VG "+Math.round(four*100)/100;
+                      var vg = data[parseInt(x.invert(p[0]-(margin.left)))].MIC_VG;
+                      if (vg <= 0){
+                        $(".DESIRABLE").addClass("graph3Aux");
+                        $(".COARSE").removeClass("graph3Aux");
+                      }
+                      else{
+                        $(".COARSE").addClass("graph3Aux");
+                        $(".DESIRABLE").removeClass("graph3Aux");
+                      }
+
+                      return "VG "+Math.round(vg*100)/100;
                     });
     })
   .append("g")
@@ -422,23 +428,30 @@ d3.csv("data3.csv", function(error, data) {
 
 
   svg.append("g")
-      .attr("class", "legend")
-      .append("rect")
-      .attr("class", "graph3Aux")
-      .attr("x", width/2)
-      .attr("y", height * 0.07)
-      .attr("width", 1)
-      .attr("height", height * 0.93);
+    .attr("class", "legend")
+    .append("rect")
+    .attr("class", "graph3Aux")
+    .attr("x", width/2)
+    .attr("y", height * 0.07)
+    .attr("width", 1)
+    .attr("height", height * 0.93);
 
-    svg.append("g")
-      .append("text")
-      .text("HELLO")
-      .attr("class", "graph3Aux vg")
-      .attr("x", width/2)
-      .attr("y", 20);
 
-  console.log(x.invert(width/2));
+  var labels = [{text: "81% DESIRABLE ALPACA", x: width*0.35, y: height*0.7, class: "DESIRABLE"},
+                {text: "19% COARSE ALPACA", x: width*0.84, y: height*0.17, class: "COARSE"},
+                {text: "", x: width/2, y: 20, class: "graph3Aux vg"}];
 
+  svg.append("g").selectAll(".graph3Legend")
+    .data(labels).enter()
+    .append("text")
+    .text(function(d){return d.text;})
+    .attr("class", function(d){return "graph3Label "+d.class;})
+    .attr("x", function(d){return d.x;})
+    .attr("y", function(d){return d.y;});
+
+
+  svg.selectAll(".graph3Legend")
+    .append()
 
 });
 
